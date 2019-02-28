@@ -14,7 +14,7 @@ import javax.servlet.http.Part;
 
 //使用@WebServlet配置UploadServlet的访问路径
 //@WebServlet("/Service/Upload")
-@WebServlet(name="Upload",urlPatterns="Service/Upload")
+@WebServlet(name="Upload",urlPatterns="/Service/Upload")
 //使用注解@MultipartConfig将一个Servlet标识为支持文件上传
 @MultipartConfig//标识Servlet支持文件上传
 public class Upload extends HttpServlet {
@@ -64,7 +64,7 @@ public class Upload extends HttpServlet {
      * @param header 请求头
      * @return 文件名
      */
-    public String getFileName(String header) {
+    private String getFileName(String header) {
         /**
          * String[] tempArr1 = header.split(";");代码执行完之后，在不同的浏览器下，tempArr1数组里面的内容稍有区别
          * 火狐或者google浏览器下：tempArr1={form-data,name="file",filename="snmp4j--api.zip"}

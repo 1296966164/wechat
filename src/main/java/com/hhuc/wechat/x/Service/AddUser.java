@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/Service/Adduser")
+@WebServlet("/Service/AddUser")
 public class AddUser extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +34,6 @@ public class AddUser extends HttpServlet {
      */
     public AddUser() {
         super();
-        System.out.println("v000000000000000000000000000000000000000000000000000000000000000000000000");
         BasicConfigurator.configure ();
 
         //Todo 修改为外部配置文件
@@ -72,7 +71,7 @@ public class AddUser extends HttpServlet {
         out.println(res);
     }
     // 处理 POST 方法请求的方法
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
 }
