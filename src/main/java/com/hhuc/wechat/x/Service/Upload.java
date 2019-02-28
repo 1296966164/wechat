@@ -1,112 +1,88 @@
-//package com.hhuc.wechat.x.Service;
-//
-///**
-// * @program: Wechat_1
-// * @description: 上传文件
-// * @author: LYX
-// * @create: 2019-02-28 21:26
-// **/
-//import java.io.File;
-//import java.io.IOException;
-//import java.io.PrintWriter;
-//import java.util.List;
-//
-//import javax.servlet.ServletException;
-//import javax.servlet.annotation.WebServlet;
-//import javax.servlet.http.HttpServlet;
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpServletResponse;
-//
-////import org.apache.commons.fileupload.FileItem;
-////import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-////import org.apache.commons.fileupload.servlet.ServletFileUpload;
-//
-//
-///**
-// * Servlet implementation class UploadServlet
-// */
-//public class Upload extends HttpServlet {
-//    private static final long serialVersionUID = 1L;
-//
-//    // 上传文件存储目录
-//    private static final String UPLOAD_DIRECTORY = "upload";
-//
-//    // 上传配置
-//    private static final int MEMORY_THRESHOLD   = 1024 * 1024 * 3;  // 3MB
-//    private static final int MAX_FILE_SIZE      = 1024 * 1024 * 40; // 40MB
-//    private static final int MAX_REQUEST_SIZE   = 1024 * 1024 * 50; // 50MB
-//
-//    /**
-//     * 上传数据及保存文件
-//     */
-//    protected void doPost(HttpServletRequest request,
-//                          HttpServletResponse response) throws ServletException, IOException {
-//        // 检测是否为多媒体上传
-//        if (!ServletFileUpload.isMultipartContent(request)) {
-//            // 如果不是则停止
-//            PrintWriter writer = response.getWriter();
-//            writer.println("Error: 表单必须包含 enctype=multipart/form-data");
-//            writer.flush();
-//            return;
-//        }
-//
-//        // 配置上传参数
-//        DiskFileItemFactory factory = new DiskFileItemFactory();
-//        // 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
-//        factory.setSizeThreshold(MEMORY_THRESHOLD);
-//        // 设置临时存储目录
-//        factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
-//
-//        ServletFileUpload upload = new ServletFileUpload(factory);
-//
-//        // 设置最大文件上传值
-//        upload.setFileSizeMax(MAX_FILE_SIZE);
-//
-//        // 设置最大请求值 (包含文件和表单数据)
-//        upload.setSizeMax(MAX_REQUEST_SIZE);
-//
-//        // 中文处理
-//        upload.setHeaderEncoding("UTF-8");
-//
-//        // 构造临时路径来存储上传的文件
-//        // 这个路径相对当前应用的目录
-//        String uploadPath = request.getServletContext().getRealPath("./") + File.separator + UPLOAD_DIRECTORY;
-//
-//
-//        // 如果目录不存在则创建
-//        File uploadDir = new File(uploadPath);
-//        if (!uploadDir.exists()) {
-//            uploadDir.mkdir();
-//        }
-//
-//        try {
-//            // 解析请求的内容提取文件数据
-//            @SuppressWarnings("unchecked")
-//            List<FileItem> formItems = upload.parseRequest(request);
-//
-//            if (formItems != null && formItems.size() > 0) {
-//                // 迭代表单数据
-//                for (FileItem item : formItems) {
-//                    // 处理不在表单中的字段
-//                    if (!item.isFormField()) {
-//                        String fileName = new File(item.getName()).getName();
-//                        String filePath = uploadPath + File.separator + fileName;
-//                        File storeFile = new File(filePath);
-//                        // 在控制台输出文件的上传路径
-//                        System.out.println(filePath);
-//                        // 保存文件到硬盘
-//                        item.write(storeFile);
-//                        request.setAttribute("message",
-//                                "文件上传成功!");
-//                    }
-//                }
-//            }
-//        } catch (Exception ex) {
-//            request.setAttribute("message",
-//                    "错误信息: " + ex.getMessage());
-//        }
-//        // 跳转到 message.jsp
-//        request.getServletContext().getRequestDispatcher("/message.jsp").forward(
-//                request, response);
-//    }
-//}
+package com.hhuc.wechat.x.Service;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Collection;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+//使用@WebServlet配置UploadServlet的访问路径
+//@WebServlet("/Service/Upload")
+@WebServlet(name="Upload",urlPatterns="Service/Upload")
+//使用注解@MultipartConfig将一个Servlet标识为支持文件上传
+@MultipartConfig//标识Servlet支持文件上传
+public class Upload extends HttpServlet {
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
+        //存储路径
+        String savePath = request.getServletContext().getRealPath("/WEB-INF/uploadFile");
+        //获取上传的文件集合
+        Collection<Part> parts = request.getParts();
+        //上传单个文件
+        if (parts.size()==1) {
+            //Servlet3.0将multipart/form-data的POST请求封装成Part，通过Part对上传的文件进行操作。
+            //Part part = parts[0];//从上传的文件集合中获取Part对象
+            Part part = request.getPart("file");//通过表单file控件(<input type="file" name="file">)的名字直接获取Part对象
+            //Servlet3没有提供直接获取文件名的方法,需要从请求头中解析出来
+            //获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
+            String header = part.getHeader("content-disposition");
+            //获取文件名
+            String fileName = getFileName(header);
+            //把文件写到指定路径
+            part.write(savePath+File.separator+fileName);
+        }else {
+            //一次性上传多个文件
+            for (Part part : parts) {//循环处理上传的文件
+                //获取请求头，请求头的格式：form-data; name="file"; filename="snmp4j--api.zip"
+                String header = part.getHeader("content-disposition");
+                //获取文件名
+                String fileName = getFileName(header);
+                //把文件写到指定路径
+                part.write(savePath+File.separator+fileName);
+            }
+        }
+        PrintWriter out = response.getWriter();
+        out.println("上传成功");
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * 根据请求头解析出文件名
+     * 请求头的格式：火狐和google浏览器下：form-data; name="file"; filename="snmp4j--api.zip"
+     *                 IE浏览器下：form-data; name="file"; filename="E:\snmp4j--api.zip"
+     * @param header 请求头
+     * @return 文件名
+     */
+    public String getFileName(String header) {
+        /**
+         * String[] tempArr1 = header.split(";");代码执行完之后，在不同的浏览器下，tempArr1数组里面的内容稍有区别
+         * 火狐或者google浏览器下：tempArr1={form-data,name="file",filename="snmp4j--api.zip"}
+         * IE浏览器下：tempArr1={form-data,name="file",filename="E:\snmp4j--api.zip"}
+         */
+        String[] tempArr1 = header.split(";");
+        /**
+         *火狐或者google浏览器下：tempArr2={filename,"snmp4j--api.zip"}
+         *IE浏览器下：tempArr2={filename,"E:\snmp4j--api.zip"}
+         */
+        String[] tempArr2 = tempArr1[2].split("=");
+        //获取文件名，兼容各种浏览器的写法
+        String fileName = tempArr2[1].substring(tempArr2[1].lastIndexOf("\\")+1).replaceAll("\"", "");
+        return fileName;
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        this.doGet(request, response);
+    }
+}

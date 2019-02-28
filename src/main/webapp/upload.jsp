@@ -16,7 +16,8 @@
 </head>
 <body>
 <h1>文件上传</h1>
-<form method="post" action="/Service/Upload" enctype="multipart/form-data">
+
+<form method="post" action="Service/Upload" enctype="multipart/form-data">
     选择一个文件:
     <input type="file" name="uploadFile" />
     <br/><br/>
