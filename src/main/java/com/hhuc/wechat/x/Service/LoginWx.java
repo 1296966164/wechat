@@ -2,6 +2,7 @@ package com.hhuc.wechat.x.Service;
 
 import com.hhuc.wechat.x.DAO.Login_request;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,7 @@ import java.io.PrintWriter;
  * @create: 2019-02-22 21:40
  **/
 
-
+@WebServlet("/Service/LoginWx")
 public class LoginWx extends HttpServlet{
 
 

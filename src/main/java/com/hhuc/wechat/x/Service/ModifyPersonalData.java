@@ -15,13 +15,14 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
+@WebServlet("/Service/ModifyPersonalData")
 public class ModifyPersonalData extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
