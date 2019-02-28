@@ -27,7 +27,7 @@
         where openid=#{openid}
     </update>
     <insert id="addUser">
-        insert into user(openid,city,phone)
-        values(#{openid},#{city},#{phone},province=#{province},country=#{country},avatarUrl=#{avatarUrl},language=#{language},nickname=#{nickname})
+        insert into user(openid,city,phone,province,country,avatarUrl,language,nickname)
+        values(#{openid},#{city},#{phone},#{province},#{country},#{avatarUrl},#{language},#{nickname})
     </insert>
 </mapper>
