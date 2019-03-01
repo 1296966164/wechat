@@ -44,7 +44,6 @@ public class LoginWx extends HttpServlet{
         System.out.println(code);
         Login_request req=new Login_request(code);
         String res = req.Code2Session();
-
         out.println(res);
     }
 

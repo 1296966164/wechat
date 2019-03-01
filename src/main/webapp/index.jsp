@@ -11,6 +11,11 @@
     <title>$Title$</title>
   </head>
   <body>
-  Hellooooooooooooooooooooooooooooooooooooooooo
+  <a href="qubi.html" >qubi</a>
+  <a href="modify.html" >modify</a>
+  <a href="addUser.html" >addUser</a>
+  <a href="video.html" >video</a>
+  <a href="upload.jsp" >upload</a>
+
   </body>
 </html>

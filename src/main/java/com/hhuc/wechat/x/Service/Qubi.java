@@ -9,8 +9,11 @@ import com.hhuc.wechat.x.DAO.Userexer;
 import com.hhuc.wechat.x.Models.User;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.DriverManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -52,9 +55,6 @@ public class Qubi  extends HttpServlet {
 
         User user =new User();
         user.setOpenid(openid);
-//        Query q = new Query(data);
-//
-//        String res = q.query_openid();
         Userexer userexer = new Userexer(user);
         String res = userexer.queryOpenid();
 
@@ -64,7 +64,18 @@ public class Qubi  extends HttpServlet {
         out.println(res);
     }
     // 处理 POST 方法请求的方法
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
+
+
+//        response.setHeader("content-type", "text/html;charset=UTF-8");
+//        response.setContentType("text/html;charset=UTF-8");
+//        response.setCharacterEncoding("UTF-8");
+//        BufferedReader res = request.getReader();
+//        PrintWriter out = response.getWriter();
+//
+//        out.println(res.read());
+
+
     }
 }

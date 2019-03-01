@@ -25,7 +25,7 @@ public class Upload extends HttpServlet {
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         //存储路径
-        String savePath = request.getServletContext().getRealPath("/WEB-INF/uploadFile");
+        String savePath = request.getServletContext().getRealPath("/uploadFile");
         //获取上传的文件集合
         Collection<Part> parts = request.getParts();
         //上传单个文件
