@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hhuc.wechat.x.DAO.SuggMapper">
+
+    <!--<select id="queryOpenid" resultType="com.hhuc.wechat.x.Models.User">-->
+    <!--select * from user where openid = #{openid}-->
+
+    <!--</select>-->
+
+    <!--<update id="updateUserIfNecessary">-->
+    <!--update user-->
+    <!--<set>-->
+    <!--<if test="phone != null">phone=#{phone},</if>-->
+    <!--<if test="city != null">city=#{city},</if>-->
+    <!--<if test="province != null">proviince=#{province},</if>-->
+    <!--<if test="language != null">language=#{language}</if>-->
+    <!--<if test="avatarUrl != null">avatarUrl=#{avatarUrl}</if>-->
+    <!--</set>-->
+    <!--where openid=#{openid}-->
+    <!--</update>-->
+    <!--<update id="updateUser">-->
+    <!--update user-->
+    <!--set phone =#{phone},province=#{province},city=#{city},country=#{country},avatarUrl=#{avatarUrl},language=#{language},nickname=#{nickname}-->
+    <!--where openid=#{openid}-->
+    <!--</update>-->
+    <insert id="commit">
+        insert into suggestions(content,contact,towho,time,uuid)
+        values(#{content},#{contact},#{towho},#{time},#{uuid})
+    </insert>
+
+
+    <select id="queryAll" resultType="com.hhuc.wechat.x.Models.Suggestion">
+
+       select * from suggestions
+
+    </select>
+
+    <select id="queryCm" resultType="com.hhuc.wechat.x.Models.Suggestion">
+       select * from suggestions where towho = #{towho}
+    </select>
+</mapper>

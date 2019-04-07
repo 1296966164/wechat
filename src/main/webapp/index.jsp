@@ -16,6 +16,7 @@
   <a href="addUser.html" >addUser</a>
   <a href="video.html" >video</a>
   <a href="upload.jsp" >upload</a>
+  <a href="qscmx.html" >qscm</a>
 
   </body>
 </html>
